@@ -4,6 +4,7 @@ import '../models/doctor.dart';
 import '../services/doctor_service.dart';
 import '../services/auth_service.dart';
 import 'add_doctor_screen.dart';
+import 'select_duty_pg_screen.dart';
 
 class DutyDoctorTab extends StatefulWidget {
   const DutyDoctorTab({super.key});
@@ -13,6 +14,7 @@ class DutyDoctorTab extends StatefulWidget {
 }
 
 class _DutyDoctorTabState extends State<DutyDoctorTab> {
+  static const _primaryColor = Color(0xFF3A418E);
   final _searchController = TextEditingController();
   List<Doctor> _doctors = [];
   bool _isLoading = false;
@@ -80,50 +82,22 @@ class _DutyDoctorTabState extends State<DutyDoctorTab> {
       return;
     }
 
-    // Show confirmation dialog
-    final confirm = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Set Duty Doctor'),
-        content: Text('Set ${doctor.name} as the current duty doctor?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Confirm'),
-          ),
-        ],
+    // New Flow: Navigate to Select Duty PG Screen
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SelectDutyPGScreen(doctor: doctor),
       ),
     );
 
-    if (confirm != true) return;
-
-    setState(() => _isLoading = true);
-
-    final result = await DoctorService.setDutyDoctor(
-      adminId: currentUser.id,
-      doctorId: doctor.id,
-    );
-
-    setState(() => _isLoading = false);
-
-    if (mounted) {
-      if (result['success'] == true) {
+    // If result is true, it means duty was set successfully
+    if (result == true) {
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${doctor.name} is now on duty')),
-        );
-        _loadDoctors(search: _searchQuery.isEmpty ? null : _searchQuery);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(result['error'] ?? 'Failed to set duty doctor'),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text('${doctor.name} set as duty doctor')),
         );
       }
+      _loadDoctors(search: _searchQuery.isEmpty ? null : _searchQuery);
     }
   }
 
@@ -145,6 +119,8 @@ class _DutyDoctorTabState extends State<DutyDoctorTab> {
       appBar: AppBar(
         title: const Text('Duty Doctors'),
         leading: const BackButton(),
+        backgroundColor: _primaryColor,
+        foregroundColor: Colors.white,
       ),
       body: Column(
         children: [
@@ -299,6 +275,8 @@ class _DutyDoctorTabState extends State<DutyDoctorTab> {
       floatingActionButton: FloatingActionButton(
         onPressed: _navigateToAddDoctor,
         tooltip: 'Add New Doctor',
+        backgroundColor: _primaryColor,
+        foregroundColor: Colors.white,
         child: const Icon(Icons.add),
       ),
     );
@@ -317,6 +295,9 @@ class _DoctorCard extends StatelessWidget {
   final VoidCallback onSetDuty;
   final VoidCallback? onViewProfile;
 
+  // Use primary color here as well if needed, though card logic uses semantics
+  static const _primaryColor = Color(0xFF3A418E);
+
   const _DoctorCard({
     required this.doctor,
     required this.onSetDuty,
@@ -332,7 +313,7 @@ class _DoctorCard extends StatelessWidget {
       elevation: 2,
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: isOnDuty ? Colors.green : Colors.blue,
+          backgroundColor: isOnDuty ? Colors.green : _primaryColor,
           child: Text(
             doctor.name.isNotEmpty ? doctor.name[0].toUpperCase() : 'D',
             style: const TextStyle(
@@ -426,6 +407,7 @@ class _DoctorCard extends StatelessWidget {
                   icon: const Icon(Icons.assignment_ind, size: 16),
                   label: const Text('Set Duty'),
                   style: OutlinedButton.styleFrom(
+                    foregroundColor: _primaryColor,
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   ),

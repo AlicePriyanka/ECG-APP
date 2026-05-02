@@ -24,7 +24,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: Colors.white,
         ),
       ),
-      backgroundColor: Colors.blue[600],
+      backgroundColor: const Color(0xFF3A418E),
       elevation: 4,
       automaticallyImplyLeading: false,
       actions: [

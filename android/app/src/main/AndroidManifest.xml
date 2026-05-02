@@ -2,7 +2,7 @@
     <!-- Cleartext HTTP access + internet permission for release build -->
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="Saveetha Cardio App"
+        android:label="Simats Cardio"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"

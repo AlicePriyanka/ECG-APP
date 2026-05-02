@@ -19,6 +19,7 @@ class UserUploadScreen extends StatefulWidget {
 }
 
 class _UserUploadScreenState extends State<UserUploadScreen> {
+  static const _primaryColor = Color(0xFF3A418E);
   final _formKey = GlobalKey<FormState>();
   final _notesController = TextEditingController();
   final _patientSearchController = TextEditingController();
@@ -289,7 +290,7 @@ class _UserUploadScreenState extends State<UserUploadScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Upload ECG'),
-        backgroundColor: Colors.blue,
+        backgroundColor: _primaryColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -423,7 +424,7 @@ class _UserUploadScreenState extends State<UserUploadScreen> {
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 16, horizontal: 24),
-                            backgroundColor: Colors.blue.shade600,
+                            backgroundColor: _primaryColor,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -585,7 +586,7 @@ class _UserUploadScreenState extends State<UserUploadScreen> {
                 style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(16),
                     backgroundColor:
-                        _isUploadAllowed() ? Colors.blue : Colors.grey),
+                        _isUploadAllowed() ? _primaryColor : Colors.grey),
                 child: _isUploading
                     ? const CircularProgressIndicator(color: Colors.white)
                     : const Text('Upload & Submit',

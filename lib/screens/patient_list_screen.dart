@@ -11,6 +11,7 @@ class PatientListScreen extends StatefulWidget {
 }
 
 class _PatientListScreenState extends State<PatientListScreen> {
+  static const _primaryColor = Color(0xFF3A418E);
   List<Patient> _allPatients = [];
   List<Patient> _filteredPatients = [];
   final TextEditingController _searchController = TextEditingController();
@@ -76,7 +77,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text('All Patients'),
-        backgroundColor: Colors.blue[600],
+        backgroundColor: _primaryColor,
         elevation: 4,
       ),
       body: Column(
@@ -198,13 +199,13 @@ class _PatientListScreenState extends State<PatientListScreen> {
               // Patient Avatar
               CircleAvatar(
                 radius: 30,
-                backgroundColor: Colors.blue[100],
+                backgroundColor: _primaryColor.withOpacity(0.1),
                 child: Text(
                   _getInitials(patient.name),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue[800],
+                    color: _primaryColor,
                   ),
                 ),
               ),
@@ -296,7 +297,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
         return Colors.orange;
       case 'assigned':
       case 'in_progress':
-        return Colors.blue;
+        return _primaryColor;
       case 'completed':
         return Colors.green;
       default:

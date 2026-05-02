@@ -36,7 +36,9 @@ class _PatientTasksScreenState extends State<PatientTasksScreen> {
   int? _selectedImageIndex;
 
   // App theme colors
-  static const Color _primaryColor = Color(0xFF1976D2); // Blue
+  // App theme colors
+  static const Color _primaryColor = Color(0xFF3A418E); // Primary
+
   static const Color _primaryDark = Color(0xFF1565C0);
   static const Color _primaryLight = Color(0xFFBBDEFB);
   static const Color _backgroundColor =

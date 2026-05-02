@@ -18,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  static const _primaryColor = Color(0xFF3A418E);
   final _formKey = GlobalKey<FormState>();
   String email = '', password = '';
   bool _isLoading = false;
@@ -55,6 +56,18 @@ class _LoginScreenState extends State<LoginScreen> {
       case LoginStatus.invalidCredentials:
         setState(() {
           _errorMessage = 'Invalid email or password';
+        });
+        break;
+
+      case LoginStatus.pendingApproval:
+        setState(() {
+          _errorMessage = 'Your account is pending approval by the admin.';
+        });
+        break;
+
+      case LoginStatus.blocked:
+        setState(() {
+          _errorMessage = 'Your account has been blocked by the admin.';
         });
         break;
 
@@ -133,10 +146,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Sign In'),
-        backgroundColor: Colors.blue[600],
+        backgroundColor: _primaryColor,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -152,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.login, size: 48, color: Colors.blue[600]),
+                    const Icon(Icons.login, size: 48, color: _primaryColor),
                     const SizedBox(height: 16),
                     TextFormField(
                       decoration: InputDecoration(
@@ -198,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue[600],
+                          backgroundColor: _primaryColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)),
                         ),
@@ -226,7 +239,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         child: const Text('Forgot Password?',
-                            style: TextStyle(color: Colors.blue)),
+                            style: TextStyle(color: _primaryColor)),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -234,14 +247,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.centerRight,
                       child: TextButton.icon(
                         style: TextButton.styleFrom(
-                          foregroundColor: Colors.blue[600],
+                          foregroundColor: _primaryColor,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 8),
                         ),
                         icon: const Icon(Icons.person_add, size: 18),
-                        label: Text('Sign Up',
-                            style: TextStyle(
-                                fontSize: 14, color: Colors.blue[600])),
+                        label: const Text('Sign Up',
+                            style:
+                                TextStyle(fontSize: 14, color: _primaryColor)),
                         onPressed: () {
                           // Only allow user self-signup from the login screen.
                           Navigator.of(context).push(

@@ -18,6 +18,7 @@ class TaskListScreen extends StatefulWidget {
 }
 
 class _TaskListScreenState extends State<TaskListScreen> {
+  static const _primaryColor = Color(0xFF3A418E);
   List<Task> _tasks = [];
   bool _isLoading = true;
   String? _errorMessage;
@@ -55,11 +56,11 @@ class _TaskListScreenState extends State<TaskListScreen> {
       case 'high':
         return Colors.orange;
       case 'normal':
-        return Colors.blue;
+        return _primaryColor;
       case 'low':
         return Colors.grey;
       default:
-        return Colors.blue;
+        return _primaryColor;
     }
   }
 
@@ -68,7 +69,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: Colors.blue,
+        backgroundColor: _primaryColor,
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),

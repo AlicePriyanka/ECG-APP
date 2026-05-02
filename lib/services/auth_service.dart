@@ -9,6 +9,8 @@ enum LoginStatus {
   success,
   invalidCredentials,
   accountNotFound,
+  pendingApproval, // Active = 0
+  blocked, // Blocked = 1
   serverError,
   unknown
 }
@@ -98,6 +100,16 @@ class AuthService {
       } else if (response.statusCode == 404) {
         // We explicitly return 404 from PHP for "account not found"
         return LoginStatus.accountNotFound;
+      } else if (response.statusCode == 403) {
+        // Handle blocked/pending
+        try {
+          final body = jsonDecode(response.body);
+          final code = body['code'];
+          if (code == 'account_blocked') return LoginStatus.blocked;
+          if (code == 'account_pending') return LoginStatus.pendingApproval;
+        } catch (_) {}
+        return LoginStatus
+            .invalidCredentials; // Default fallback if parsing fails
       } else if (response.statusCode == 401) {
         return LoginStatus.invalidCredentials;
       } else {

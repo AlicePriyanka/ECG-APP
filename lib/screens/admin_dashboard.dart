@@ -9,6 +9,7 @@ import '../models/task.dart';
 import '../services/task_service.dart';
 import 'task_detail_screen.dart';
 import 'patient_tasks_screen.dart';
+import 'admin/user_management_screen.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -18,12 +19,15 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
+  // Define primary color
+  static const _primaryColor = Color(0xFF3A418E);
+
   // Default to Home tab
-  int _selectedIndex = 2;
+  int _selectedIndex = 0;
 
   Future<bool> _onWillPop() async {
-    if (_selectedIndex != 2) {
-      setState(() => _selectedIndex = 2);
+    if (_selectedIndex != 0) {
+      setState(() => _selectedIndex = 0);
       return false;
     }
     return true;
@@ -36,47 +40,35 @@ class _AdminDashboardState extends State<AdminDashboard> {
       child: Scaffold(
         body: IndexedStack(
           index: _selectedIndex,
-          children: [
-            // 0: Duty Doctors
-            const DutyDoctorTab(),
-            // 1: Pending
-            const TaskListScreen(
-              title: 'Pending ECG',
-              filterStatus: 'pending',
-            ),
+          children: const [
             // 2: Home (default)
-            const AdminHomeTab(),
-            // 3: Completed
-            const TaskListScreen(
-              title: 'Completed ECG',
-              filterStatus: 'completed',
-            ),
-            // 4: Profile
-            const AdminProfileScreen(),
+            AdminHomeTab(),
+            // 0: Duty Doctors
+            DutyDoctorTab(),
+            // 1: User Management
+            UserManagementScreen(),
+            // 3: Profile
+            AdminProfileScreen(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: (index) => setState(() => _selectedIndex = index),
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.blue[600],
+          selectedItemColor: _primaryColor,
           unselectedItemColor: Colors.grey[600],
           items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.medical_services),
-              label: 'Duty Doctors',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.pending_actions),
-              label: 'Pending',
-            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.check_circle),
-              label: 'Completed',
+              icon: Icon(Icons.medical_services),
+              label: 'Duty Doctors',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              label: 'Users',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
@@ -97,6 +89,7 @@ class AdminHomeTab extends StatefulWidget {
 }
 
 class _AdminHomeTabState extends State<AdminHomeTab> {
+  static const _primaryColor = Color(0xFF3A418E);
   admin_model.AdminDashboard? _dashboard;
   List<Task> _recentTasks = [];
   bool _loading = true;
@@ -151,7 +144,7 @@ class _AdminHomeTabState extends State<AdminHomeTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Saveetha Cardio App'),
+        title: const Text('Simats Cardio'),
         actions: [
           IconButton(onPressed: _load, icon: const Icon(Icons.refresh)),
           IconButton(
@@ -186,7 +179,7 @@ class _AdminHomeTabState extends State<AdminHomeTab> {
                             child: _buildStatCard(
                               'Total ECG',
                               _totalTasks.toString(),
-                              Colors.blue,
+                              _primaryColor, // Use primary color instead of blue
                               Icons.assignment,
                             ),
                           ),
@@ -291,13 +284,13 @@ class _AdminHomeTabState extends State<AdminHomeTab> {
         isThreeLine: true,
         leading: CircleAvatar(
           radius: 28,
-          backgroundColor: Colors.blue[100],
+          backgroundColor: _primaryColor.withOpacity(0.1),
           child: Text(
             _getInitials(task.patientName ?? 'Patient'),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.blue[800],
+              color: _primaryColor,
             ),
           ),
         ),
@@ -414,13 +407,13 @@ class _AdminHomeTabState extends State<AdminHomeTab> {
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundColor: Colors.blue.shade50,
+                backgroundColor: _primaryColor.withOpacity(0.1),
                 child: Text(
                   _getInitials(patientName),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue.shade700,
+                    color: _primaryColor,
                   ),
                 ),
               ),
@@ -473,9 +466,7 @@ class _AdminHomeTabState extends State<AdminHomeTab> {
                       ),
                     ),
                     child: Text(
-                      pendingCount > 0
-                          ? '$pendingCount Pending'
-                          : 'All Reviewed',
+                      pendingCount > 0 ? '$pendingCount Pending' : 'Reviewed',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,

@@ -1,4 +1,4 @@
-# Saveetha Cardio App
+# Simats Cardio
 
 A comprehensive Flutter application for ECG image management with role-based access control.
 

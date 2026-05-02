@@ -13,6 +13,7 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+  static const _primaryColor = Color(0xFF3A418E);
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String phone = '';
@@ -73,10 +74,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
+      backgroundColor: _primaryColor.withOpacity(0.05),
       appBar: AppBar(
         title: const Text('Reset Password'),
-        backgroundColor: Colors.blue[600],
+        backgroundColor: _primaryColor,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -93,7 +94,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Icon(Icons.lock_reset, size: 48, color: Colors.blue[600]),
+                    Icon(Icons.lock_reset, size: 48, color: _primaryColor),
                     const SizedBox(height: 24),
                     const Text(
                       'Enter your details to reset password',
@@ -203,7 +204,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue[600],
+                          backgroundColor: _primaryColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)),
                         ),

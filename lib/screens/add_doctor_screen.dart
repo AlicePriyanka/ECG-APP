@@ -10,6 +10,7 @@ class AddDoctorScreen extends StatefulWidget {
 }
 
 class _AddDoctorScreenState extends State<AddDoctorScreen> {
+  static const _primaryColor = Color(0xFF3A418E);
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -188,21 +189,21 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
+                  color: _primaryColor.withOpacity(0.05),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.blue.shade200),
+                  border: Border.all(color: _primaryColor.withOpacity(0.2)),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline,
-                        color: Colors.blue.shade700, size: 20),
+                    const Icon(Icons.info_outline,
+                        color: _primaryColor, size: 20),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         'Role: Doctor (Fixed)\nDoctor can login using email & password',
                         style: TextStyle(
                           fontSize: 13,
-                          color: Colors.blue.shade900,
+                          color: _primaryColor.withOpacity(0.9),
                         ),
                       ),
                     ),
@@ -256,7 +257,7 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
                       onPressed: _isLoading ? null : _submitForm,
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        backgroundColor: Colors.blue,
+                        backgroundColor: _primaryColor,
                       ),
                       child: _isLoading
                           ? const SizedBox(

@@ -33,4 +33,41 @@ class AdminService {
       rethrow;
     }
   }
+
+  static Future<List<Map<String, dynamic>>> fetchUsers(
+      {String status = 'all'}) async {
+    final url = Uri.parse('${apiBase}get_users.php').replace(queryParameters: {
+      'status': status,
+    });
+    try {
+      final resp = await http.get(url).timeout(const Duration(seconds: 10));
+      if (resp.statusCode == 200) {
+        final body = jsonDecode(resp.body);
+        if (body['success'] == true) {
+          return List<Map<String, dynamic>>.from(body['users']);
+        }
+      }
+      return [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  static Future<bool> updateUserStatus(String userId, String action) async {
+    final url = Uri.parse('${apiBase}update_user_status.php');
+    try {
+      final resp = await http.post(
+        url,
+        body: jsonEncode({'user_id': userId, 'action': action}),
+        headers: {'Content-Type': 'application/json'},
+      );
+      if (resp.statusCode == 200) {
+        final body = jsonDecode(resp.body);
+        return body['success'] == true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
 }

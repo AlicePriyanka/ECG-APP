@@ -44,8 +44,10 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
         contactToSend = compact;
       } else {
         var digits = compact.replaceFirst(RegExp(r'^0+'), '');
-        if (digits.isNotEmpty) contactToSend = '+91' + digits;
-        else contactToSend = null;
+        if (digits.isNotEmpty)
+          contactToSend = '+91' + digits;
+        else
+          contactToSend = null;
       }
     } else {
       contactToSend = null;
@@ -70,7 +72,8 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
         // Use numeric 'id' from the API when available. Some APIs return only
         // a `patient_id` string (PAT...) along with a numeric `id` field; avoid
         // attempting to parse the PAT string as an int.
-        final providedId = res['id'] != null ? int.tryParse(res['id'].toString()) : null;
+        final providedId =
+            res['id'] != null ? int.tryParse(res['id'].toString()) : null;
         p = Patient(
           id: providedId ?? 0,
           patientId: res['patient_id'].toString(),

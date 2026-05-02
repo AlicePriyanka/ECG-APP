@@ -15,6 +15,6 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     // Verify splash shows app title
-    expect(find.text('Saveetha Cardio App'), findsOneWidget);
+    expect(find.text('Simats Cardio'), findsOneWidget);
   });
 }

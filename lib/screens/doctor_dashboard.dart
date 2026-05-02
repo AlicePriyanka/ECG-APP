@@ -21,6 +21,9 @@ class DoctorDashboard extends StatefulWidget {
 }
 
 class _DoctorDashboardState extends State<DoctorDashboard> {
+  static const _primaryColor = Color(0xFF3A418E);
+  // Stats
+  int _pendingCount = 0;
   List<Task> _tasks = [];
   List<PG> _pgs = [];
   bool _loading = true;
@@ -654,7 +657,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
     final isPG = currentUser?.role.name == 'pg';
     return Scaffold(
       appBar: CommonAppBar(
-        title: 'Home',
+        title: 'SIMATS Cardio',
         user: currentUser!,
         onLogout: () {
           AuthService.logout();
@@ -682,9 +685,9 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   children: [
                     Expanded(
                       child: _buildStatCard(
-                        'Total Patients',
+                        'Total Review',
                         _totalAssigned.toString(),
-                        Colors.blue,
+                        _primaryColor,
                         Icons.assignment,
                       ),
                     ),
@@ -804,8 +807,10 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   icon: const Icon(Icons.add, size: 18),
                   label: const Text('Create PG'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: _primaryColor,
                     foregroundColor: Colors.white,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   ),
                 ),
               ],
@@ -963,6 +968,23 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                                           color: Colors.grey[600]),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: _primaryColor.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        'PG',
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: _primaryColor,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1245,14 +1267,13 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
           child: Row(
             children: [
               CircleAvatar(
-                radius: 24,
-                backgroundColor: Colors.blue.shade50,
+                radius: 20,
+                backgroundColor: _primaryColor.withOpacity(0.1),
                 child: Text(
-                  _getInitials(patientName),
-                  style: TextStyle(
-                    fontSize: 18,
+                  patientName[0].toUpperCase(),
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue.shade700,
+                    color: _primaryColor,
                   ),
                 ),
               ),

@@ -20,19 +20,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const primaryColor = Color(0xFF3A418E);
+
     return MaterialApp(
       navigatorKey: navigatorKey,
-      title: 'Saveetha Cardio App',
+      title: 'Simats Cardio',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: primaryColor,
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
+          seedColor: primaryColor,
+          primary: primaryColor,
           brightness: Brightness.light,
         ),
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.blue[600],
+        appBarTheme: const AppBarTheme(
+          backgroundColor: primaryColor,
           foregroundColor: Colors.white,
           elevation: 4,
         ),
@@ -44,6 +47,8 @@ class MyApp extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
+            backgroundColor: primaryColor,
+            foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -201,27 +206,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[600],
+      backgroundColor: const Color(0xFF3A418E),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/logo.png',
+              'assets/logo/logo.png',
               width: 120,
               height: 120,
             ),
-            SizedBox(height: 24),
-            Text(
-              'Saveetha Cardio App',
+            const SizedBox(height: 24),
+            const Text(
+              'Simats Cardio',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 16),
-            CircularProgressIndicator(
+            const SizedBox(height: 16),
+            const CircularProgressIndicator(
               color: Colors.white,
               strokeWidth: 2,
             ),

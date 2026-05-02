@@ -4,6 +4,8 @@ import '../services/auth_service.dart';
 class AdminProfileScreen extends StatelessWidget {
   const AdminProfileScreen({super.key});
 
+  static const _primaryColor = Color(0xFF3A418E);
+
   @override
   Widget build(BuildContext context) {
     final user = AuthService.currentUser;
@@ -19,7 +21,7 @@ class AdminProfileScreen extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Colors.blue[600]!, Colors.blue[800]!],
+                        colors: [_primaryColor, _primaryColor.withOpacity(0.8)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -34,7 +36,8 @@ class AdminProfileScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(4),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white, width: 3),
+                                border:
+                                    Border.all(color: Colors.white, width: 3),
                               ),
                               child: CircleAvatar(
                                 radius: 50,
@@ -43,8 +46,8 @@ class AdminProfileScreen extends StatelessWidget {
                                   user.name.isNotEmpty
                                       ? user.name[0].toUpperCase()
                                       : 'U',
-                                  style: TextStyle(
-                                    color: Colors.blue[800],
+                                  style: const TextStyle(
+                                    color: _primaryColor,
                                     fontSize: 36,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -94,8 +97,8 @@ class AdminProfileScreen extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Icon(Icons.account_circle,
-                                        color: Colors.blue[600], size: 28),
+                                    const Icon(Icons.account_circle,
+                                        color: _primaryColor, size: 28),
                                     const SizedBox(width: 12),
                                     const Text(
                                       'Account Information',
@@ -130,8 +133,7 @@ class AdminProfileScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-
-                        const SizedBox(height: 24),
+// ...                       const SizedBox(height: 24),
 
                         // Logout Button
                         SizedBox(

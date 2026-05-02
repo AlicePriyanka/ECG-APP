@@ -16,6 +16,7 @@ class UserDashboard extends StatefulWidget {
 }
 
 class _UserDashboardState extends State<UserDashboard> {
+  static const _primaryColor = Color(0xFF3A418E);
   List<Task> _tasks = [];
   bool _loading = true;
   String? _error;
@@ -147,7 +148,7 @@ class _UserDashboardState extends State<UserDashboard> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: CommonAppBar(
-        title: 'Saveetha Cardio App',
+        title: 'Simats Cardio',
         user: user,
         onLogout: () {
           Navigator.of(context).pushReplacement(
@@ -201,9 +202,9 @@ class _UserDashboardState extends State<UserDashboard> {
                 children: [
                   Expanded(
                       child: _buildStatCard(
-                          'Total Patients',
+                          'Total ECG',
                           _submittedCount.toString(),
-                          Colors.blue,
+                          _primaryColor,
                           Icons.file_upload)),
                   const SizedBox(width: 12),
                   Expanded(
@@ -344,11 +345,11 @@ class _UserDashboardState extends State<UserDashboard> {
                 children: [
                   CircleAvatar(
                     radius: 24,
-                    backgroundColor: Colors.blue[100],
+                    backgroundColor: _primaryColor.withOpacity(0.1),
                     child: Text(
                       _getInitials(task.patientName ?? 'Unknown'),
-                      style: TextStyle(
-                          color: Colors.blue[700],
+                      style: const TextStyle(
+                          color: _primaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 16),
                     ),
@@ -376,7 +377,7 @@ class _UserDashboardState extends State<UserDashboard> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
-                        colors: [Colors.blue, Colors.lightBlueAccent],
+                        colors: [_primaryColor, _primaryColor.withOpacity(0.7)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -564,13 +565,13 @@ class _UserDashboardState extends State<UserDashboard> {
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundColor: Colors.blue.shade50,
+                backgroundColor: _primaryColor.withOpacity(0.1),
                 child: Text(
                   _getInitials(patientName),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue.shade700,
+                    color: _primaryColor,
                   ),
                 ),
               ),

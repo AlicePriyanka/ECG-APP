@@ -14,6 +14,7 @@ class PatientDetailScreen extends StatefulWidget {
 }
 
 class _PatientDetailScreenState extends State<PatientDetailScreen> {
+  static const _primaryColor = Color(0xFF3A418E);
   final TextEditingController _responseController = TextEditingController();
   bool _isSubmitting = false;
 
@@ -75,7 +76,7 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text('Patient Details'),
-        backgroundColor: Colors.blue[600],
+        backgroundColor: _primaryColor,
         elevation: 4,
         actions: [
           if (isDoctor && request?.status != 'completed')
@@ -107,13 +108,13 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
                       children: [
                         CircleAvatar(
                           radius: 40,
-                          backgroundColor: Colors.blue[100],
+                          backgroundColor: _primaryColor.withOpacity(0.1),
                           child: Text(
                             _getInitials(widget.patient.name),
                             style: TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
-                              color: Colors.blue[800],
+                              color: _primaryColor,
                             ),
                           ),
                         ),
@@ -234,7 +235,7 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
                       children: [
                         Icon(
                           Icons.medical_information,
-                          color: Colors.blue[600],
+                          color: _primaryColor,
                           size: 24,
                         ),
                         const SizedBox(width: 8),
@@ -288,7 +289,7 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
                                 : 'Submit Response'),
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.all(16),
-                              backgroundColor: Colors.blue[600],
+                              backgroundColor: _primaryColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -361,7 +362,7 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: Colors.blue[600]),
+          Icon(icon, size: 20, color: _primaryColor),
           const SizedBox(width: 12),
           Expanded(
             flex: 2,
@@ -405,7 +406,7 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
         return Colors.orange;
       case 'assigned':
       case 'in_progress':
-        return Colors.blue;
+        return _primaryColor;
       case 'completed':
         return Colors.green;
       default:

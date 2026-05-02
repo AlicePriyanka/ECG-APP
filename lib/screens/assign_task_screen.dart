@@ -13,6 +13,7 @@ class AssignTaskScreen extends StatefulWidget {
 }
 
 class _AssignTaskScreenState extends State<AssignTaskScreen> {
+  static const _primaryColor = Color(0xFF3A418E);
   final _formKey = GlobalKey<FormState>();
   final _notesController = TextEditingController();
   final _patientSearchController = TextEditingController();
@@ -93,7 +94,7 @@ class _AssignTaskScreenState extends State<AssignTaskScreen> {
     return Scaffold(
       appBar: AppBar(
           title: const Text('Create Task for Patient'),
-          backgroundColor: Colors.blue),
+          backgroundColor: _primaryColor),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -210,7 +211,7 @@ class _AssignTaskScreenState extends State<AssignTaskScreen> {
                 onPressed: _isLoading ? null : _createTask,
                 style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(16),
-                    backgroundColor: Colors.blue),
+                    backgroundColor: _primaryColor),
                 child: _isLoading
                     ? const CircularProgressIndicator(color: Colors.white)
                     : const Text('Create Task'),

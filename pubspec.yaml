@@ -3,7 +3,7 @@ description: A Flutter app for ECG image management with role-based access
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -27,7 +27,15 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.10
+
+flutter_native_splash:
+  color: "#3a418e"
+  image: assets/logo/logo.png
+  android_12:
+    image: assets/logo/logo.png
+    color: "#3a418e"
 dependency_overrides:
   characters: ^1.4.1
   material_color_utilities: ^0.13.0
@@ -38,9 +46,10 @@ flutter:
   assets: 
     - assets/images/
     - assets/dummy_data/
+    - assets/logo/
 
 # Configuration for generating launcher icons from `assets/images/logo.png`.
 flutter_icons:
   android: true
-  ios: false
-  image_path: "assets/images/logo.png"
+  ios: true
+  image_path: "assets/logo/logo.png"

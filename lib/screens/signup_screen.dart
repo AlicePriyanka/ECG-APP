@@ -17,6 +17,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  static const _primaryColor = Color(0xFF3A418E);
   static const String apiBase = apiBaseUrl;
   final _formKey = GlobalKey<FormState>();
   String name = '', email = '', phone = '', password = '';
@@ -78,10 +79,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Sign Up'),
-        backgroundColor: Colors.blue[600],
+        title: const Text('New Clinic Registration'),
+        backgroundColor: _primaryColor,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -98,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Icon(Icons.person_add, size: 48, color: Colors.blue[600]),
+                    Icon(Icons.person_add, size: 48, color: _primaryColor),
                     const SizedBox(height: 16),
                     TextFormField(
                       decoration: InputDecoration(
@@ -214,7 +215,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue[600],
+                          backgroundColor: _primaryColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)),
                         ),
