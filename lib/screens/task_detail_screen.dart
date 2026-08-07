@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/task.dart';
+import '../models/user.dart';
 import '../services/task_service.dart';
 import '../services/auth_service.dart';
 import '../config.dart';
@@ -39,10 +40,21 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
         text: image.comment ?? '',
       );
     }
+    _notifyTaskRead();
     // Scroll to bottom after build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollToBottom();
     });
+  }
+
+  void _notifyTaskRead() {
+    final user = AuthService.currentUser;
+    if (user != null && (user.role == UserRole.doctor || user.role == UserRole.pg)) {
+      TaskService.markTaskRead(
+        taskId: widget.task.id,
+        doctorId: user.id,
+      );
+    }
   }
 
   void _scrollToBottom() {

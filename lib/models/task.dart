@@ -54,7 +54,9 @@ class Task {
     return Task(
       id: int.parse(json['id'].toString()),
       patientId: int.parse(json['patient_id'].toString()),
-      userId: int.parse(json['user_id'].toString()),
+      userId: json['user_id'] != null
+          ? int.parse(json['user_id'].toString())
+          : 0,
       assignedDoctorId: json['assigned_doctor_id'] != null
           ? int.parse(json['assigned_doctor_id'].toString())
           : null,

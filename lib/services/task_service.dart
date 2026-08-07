@@ -299,4 +299,24 @@ class TaskService {
       return 0;
     }
   }
+
+  // Mark task as read by doctor (triggers notification to creator)
+  static Future<void> markTaskRead({
+    required int taskId,
+    required int doctorId,
+  }) async {
+    final url = Uri.parse('${apiBase}mark_task_read.php');
+    try {
+      await http
+          .post(
+            url,
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({
+              'task_id': taskId,
+              'doctor_id': doctorId,
+            }),
+          )
+          .timeout(const Duration(seconds: 10));
+    } catch (_) {}
+  }
 }
