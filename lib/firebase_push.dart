@@ -11,8 +11,13 @@ Future<void> initFirebaseAndRegisterToken(String baseUrl, {String? cookie}) asyn
   await Firebase.initializeApp();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  // Request permissions on iOS
-  NotificationSettings settings = await messaging.requestPermission(alert: true, badge: true, sound: true);
+  // Request permissions
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  print('Permission: ${settings.authorizationStatus}');
 
   // Foreground message handler
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {

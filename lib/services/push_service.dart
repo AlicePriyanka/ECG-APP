@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'auth_service.dart';
 import '../config.dart';
+import '../firebase_options.dart';
 
 class PushService {
-  static final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  static FirebaseMessaging get _messaging => FirebaseMessaging.instance;
   static String? _token;
   static bool _initialized = false;
   static final StreamController<RemoteMessage> _onMessageController = StreamController<RemoteMessage>.broadcast();
@@ -16,22 +18,53 @@ class PushService {
 
   static String? get token => _token;
 
+  static Future<String?> _getSafeToken() async {
+    try {
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        String? apnsToken = await _messaging.getAPNSToken();
+        int retries = 0;
+        while (apnsToken == null && retries < 10) {
+          await Future.delayed(const Duration(milliseconds: 500));
+          apnsToken = await _messaging.getAPNSToken();
+          retries++;
+        }
+        if (apnsToken == null) {
+          return null;
+        }
+      }
+      return await _messaging.getToken();
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<void> initialize() async {
     if (_initialized) return;
     _initialized = true;
 
     try {
-      await Firebase.initializeApp();
+      if (Firebase.apps.isEmpty) {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+      }
     } catch (e) {
       // Already initialized or platform not configured; just continue
     }
 
-    // Request permission where needed (iOS)
+    // Request permission for notifications
     try {
-      await _messaging.requestPermission(alert: true, badge: true, sound: true);
-    } catch (e) {}
+      final settings = await _messaging.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+      print('Permission: ${settings.authorizationStatus}');
+    } catch (e) {
+      print('Permission request error: $e');
+    }
 
-    _token = await _messaging.getToken();
+    _token = await _getSafeToken();
     if (_token != null) {
       await _saveTokenLocally(_token!);
     }
@@ -72,7 +105,7 @@ class PushService {
   static Future<void> ensureRegisteredAfterLogin() async {
     // Call this after a successful login so server gets the token stored with session or via login route
     if (_token == null) {
-      _token = await _messaging.getToken();
+      _token = await _getSafeToken();
       if (_token != null) await _saveTokenLocally(_token!);
     }
 
@@ -92,7 +125,7 @@ class PushService {
     }
     
     try {
-      final newToken = await _messaging.getToken();
+      final newToken = await _getSafeToken();
       if (newToken != null) {
         _token = newToken;
         await _saveTokenLocally(newToken);
@@ -146,7 +179,12 @@ class PushService {
       final headers = <String,String>{'Content-Type':'application/json'};
       if (cookie != null && cookie.isNotEmpty) headers['Cookie'] = cookie;
 
-      final resp = await http.post(url, headers: headers, body: jsonEncode({'fcm_token': t})).timeout(const Duration(seconds: 10));
+      final currentUser = AuthService.currentUser;
+      final bodyMap = {
+        'fcm_token': t,
+        if (currentUser != null) 'user_id': currentUser.id,
+      };
+      final resp = await http.post(url, headers: headers, body: jsonEncode(bodyMap)).timeout(const Duration(seconds: 10));
       result['status'] = resp.statusCode;
       result['body'] = resp.body;
       if (resp.statusCode == 200) {

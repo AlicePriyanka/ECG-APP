@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'firebase_options.dart';
 import 'services/auth_service.dart';
 import 'services/push_service.dart';
 import 'services/task_service.dart';
@@ -9,7 +12,68 @@ import 'screens/admin_dashboard.dart';
 import 'screens/doctor_dashboard.dart';
 import 'models/user.dart';
 
-void main() {
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  print('🔥 FCM BACKGROUND MESSAGE: ${message.messageId}');
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('🔥🔥 FCM MESSAGE RECEIVED');
+    print('Message ID: ${message.messageId}');
+    print('Title: ${message.notification?.title}');
+    print('Body: ${message.notification?.body}');
+    print('Data: ${message.data}');
+  });
+
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print('🔥🔥 FCM MESSAGE OPENED');
+    print('Message ID: ${message.messageId}');
+  });
+
+  FirebaseMessaging.instance.onTokenRefresh.listen((String token) {
+    print('🔥🔥 FCM TOKEN REFRESHED: $token');
+  });
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  final messaging = FirebaseMessaging.instance;
+
+  final settings = await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  await messaging.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  print('Permission: ${settings.authorizationStatus}');
+
+  await Future.delayed(const Duration(seconds: 2));
+
+  final apnsToken = await messaging.getAPNSToken();
+  print('APNs Token: $apnsToken');
+
+  if (apnsToken != null) {
+    try {
+      final fcmToken = await messaging.getToken();
+      print('FCM Token: $fcmToken');
+    } catch (e) {
+      print('FCM error: $e');
+    }
+  }
+
   runApp(const MyApp());
 }
 

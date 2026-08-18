@@ -49,11 +49,15 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
 
   void _notifyTaskRead() {
     final user = AuthService.currentUser;
+    print('TaskDetailScreen: _notifyTaskRead check - user: ${user?.id}, role: ${user?.role}');
     if (user != null && (user.role == UserRole.doctor || user.role == UserRole.pg)) {
+      print('TaskDetailScreen: calling TaskService.markTaskRead for taskId: ${widget.task.id}');
       TaskService.markTaskRead(
         taskId: widget.task.id,
         doctorId: user.id,
       );
+    } else {
+      print('TaskDetailScreen: skipping _notifyTaskRead because user is null or not doctor/pg');
     }
   }
 

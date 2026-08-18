@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/task.dart';
+import '../models/user.dart';
 import '../services/task_service.dart';
 import '../services/auth_service.dart';
 import '../config.dart';
@@ -48,7 +49,24 @@ class _PatientTasksScreenState extends State<PatientTasksScreen> {
   void initState() {
     super.initState();
     _initializeControllers();
+    _notifyTasksRead();
     // No need to scroll - reversed ListView naturally starts at bottom
+  }
+
+  void _notifyTasksRead() {
+    final user = AuthService.currentUser;
+    print('PatientTasksScreen: _notifyTasksRead check - user: ${user?.id}, role: ${user?.role}');
+    if (user != null && (user.role == UserRole.doctor || user.role == UserRole.pg)) {
+      for (var task in widget.tasks) {
+        print('PatientTasksScreen: calling TaskService.markTaskRead for taskId: ${task.id}');
+        TaskService.markTaskRead(
+          taskId: task.id,
+          doctorId: user.id,
+        );
+      }
+    } else {
+      print('PatientTasksScreen: skipping _notifyTasksRead because user is null or not doctor/pg');
+    }
   }
 
   void _initializeControllers() {

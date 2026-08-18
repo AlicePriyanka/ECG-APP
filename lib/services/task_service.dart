@@ -307,7 +307,8 @@ class TaskService {
   }) async {
     final url = Uri.parse('${apiBase}mark_task_read.php');
     try {
-      await http
+      print('TaskService: markTaskRead Sending to $url with taskId: $taskId, doctorId: $doctorId');
+      final resp = await http
           .post(
             url,
             headers: {'Content-Type': 'application/json'},
@@ -317,6 +318,10 @@ class TaskService {
             }),
           )
           .timeout(const Duration(seconds: 10));
-    } catch (_) {}
+      print('TaskService: markTaskRead Status: ${resp.statusCode}');
+      print('TaskService: markTaskRead Body: ${resp.body}');
+    } catch (e) {
+      print('TaskService: markTaskRead Error: $e');
+    }
   }
 }
