@@ -1,0 +1,97 @@
+{
+  "testDate": "2026-10-15T07:58:58.603Z",
+  "targetHost": "http://180.235.121.249:8081/saveetha_cardio/api",
+  "virtualUsers": 10,
+  "durationSeconds": 5.035,
+  "totalRequests": 1195,
+  "totalSuccess": 1194,
+  "totalFailed": 2,
+  "successRate": 99.92,
+  "requestsPerSecond": 237.3,
+  "responseTimeMs": {
+    "min": 3.8,
+    "max": 4003.1,
+    "avg": 19.5,
+    "p50": 11.3,
+    "p90": 20.4,
+    "p95": 23.9,
+    "p99": 49.6
+  },
+  "endpoints": {
+    "Pending Count": {
+      "path": "/saveetha_cardio/api/pending_images_count.php",
+      "requests": 351,
+      "success": 350,
+      "errors": 2,
+      "stats": {
+        "min": 3.9,
+        "max": 41.2,
+        "avg": 12.7,
+        "p50": 11.4,
+        "p90": 21.4,
+        "p95": 23.4,
+        "p99": 27
+      }
+    },
+    "Patient Directory": {
+      "path": "/saveetha_cardio/api/patients.php?limit=20",
+      "requests": 324,
+      "success": 324,
+      "errors": 0,
+      "stats": {
+        "min": 3.8,
+        "max": 61.3,
+        "avg": 12.6,
+        "p50": 10.6,
+        "p90": 17.6,
+        "p95": 23.2,
+        "p99": 55.1
+      }
+    },
+    "Doctor Task List": {
+      "path": "/saveetha_cardio/api/list_tasks.php?doctor_id=1",
+      "requests": 234,
+      "success": 234,
+      "errors": 0,
+      "stats": {
+        "min": 4.5,
+        "max": 42.3,
+        "avg": 12.7,
+        "p50": 11.6,
+        "p90": 20.9,
+        "p95": 23.6,
+        "p99": 27.1
+      }
+    },
+    "Doctors Roster": {
+      "path": "/saveetha_cardio/api/doctors.php",
+      "requests": 170,
+      "success": 170,
+      "errors": 0,
+      "stats": {
+        "min": 4.3,
+        "max": 37,
+        "avg": 12.2,
+        "p50": 11.4,
+        "p90": 17.1,
+        "p95": 19.5,
+        "p99": 33.8
+      }
+    },
+    "Users Roster": {
+      "path": "/saveetha_cardio/api/get_users.php",
+      "requests": 116,
+      "success": 116,
+      "errors": 0,
+      "stats": {
+        "min": 4.8,
+        "max": 63.2,
+        "avg": 14.6,
+        "p50": 13.4,
+        "p90": 20.8,
+        "p95": 24.5,
+        "p99": 43.5
+      }
+    }
+  }
+}
